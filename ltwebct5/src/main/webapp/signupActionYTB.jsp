@@ -26,10 +26,10 @@ try {
 	st.setString(7,state);
 	st.setString(8,country);
 	st.executeUpdate();
-    response.sendRedirect("signup.jsp?msg=done");
+    response.sendRedirect("signupYTB.jsp?msg=done");
 	
 	conn.close();
 } catch (Exception e) {
-	  response.sendRedirect("signup.jsp?msg=invalid");
+	  response.sendRedirect("signupYTB.jsp?msg=invalid");
 }
 %>

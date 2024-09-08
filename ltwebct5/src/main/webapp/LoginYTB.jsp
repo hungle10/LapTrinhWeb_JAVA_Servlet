@@ -20,7 +20,7 @@ if("invalid".equals(msg))
 	%>
 	<h2>Dang nhap that bai</h2>
 	<% } %>
-<form action="LoginAction.jsp" method="post">
+<form action="LoginActionYTB.jsp" method="post">
 		<input type="text" name="email" id="email"placeholder="Nhap email" required> 
 		<input type="text" name="password" id="password" placeholder="Nhap mat khau" required>
 		<input type="submit" value="Dang Nhap">

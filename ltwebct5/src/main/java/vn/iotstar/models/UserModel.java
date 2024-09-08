@@ -1,13 +1,12 @@
 package vn.iotstar.models;
 
+
+
 import java.io.Serializable;
 
+
+@SuppressWarnings("serial")
 public class UserModel implements Serializable{
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2240683224811203262L;
 	private int id;
 	private String username;
 	private String email;

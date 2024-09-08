@@ -22,12 +22,12 @@ try {
     while(rs.next())
 	{
       kt=1;
-      response.sendRedirect("home.jsp?msg=valid");
+      response.sendRedirect("homeYTB.jsp?msg=valid");
 	}
     if(kt==0)
-      response.sendRedirect("Login.jsp?msg=invalid");
+      response.sendRedirect("LoginYTB.jsp?msg=invalid");
 	conn.close();
 } catch (Exception e) {
-	 response.sendRedirect("Login.jsp?msg=invalid");
+	 response.sendRedirect("LoginYTB.jsp?msg=invalid");
 }
 %>

@@ -7,9 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<br />
-	<h2>
-		<a href="login.jsp">Dang nhap</a>
-	</h2>
+<h1>Ban da dang nhap thanh cong</h1>
 </body>
 </html>

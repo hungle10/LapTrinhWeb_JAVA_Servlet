@@ -20,7 +20,7 @@ if("invalid".equals(msg))
 	%>
 	<h2>Dang ki that bai</h2>
 	<% } %>
-	<form action="signupAction.jsp" method="post">
+	<form action="signupActionYTB.jsp" method="post">
 		<input type="text" name="name" id="name" placeholder="Nhap ho va ten"required> 
 		<input type="text" name="email" id="email"placeholder="Nhap email" required> 
 		<input type="text" name="password" id="password" placeholder="Nhap mat khau" required>
@@ -29,7 +29,7 @@ if("invalid".equals(msg))
 	</form>
 	<br />
 	<h2>
-		<a href="Login.jsp">Dang nhap</a>
+		<a href="LoginYTB.jsp">Dang nhap</a>
 	</h2>
 	<br />
 	<h2>

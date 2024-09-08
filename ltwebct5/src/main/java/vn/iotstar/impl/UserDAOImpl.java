@@ -14,7 +14,6 @@ public class UserDAOImpl extends DBConnectSQLServer implements IUserDAO{
 	public PreparedStatement ps = null;
 	public ResultSet rs = null;
 	
-	
 	@Override
 	public List<UserModel> findAll() {
 		String sql = "select * from userTable";
@@ -99,9 +98,7 @@ public class UserDAOImpl extends DBConnectSQLServer implements IUserDAO{
 		UserDAOImpl userDAO = new UserDAOImpl();
 		//userDAO.insert(new UserModel("abc1","abc1@gmail.com","123","linkimage","lethaihung"));
 		
-		UserModel user = userDAO.findById(1);
-		
-		
+		UserModel user = userDAO.findByUserName("hungle10");
 	    System.out.println(user.getId());
 		System.out.println(user.getUsername());
 		System.out.println(user.getEmail());
@@ -110,6 +107,37 @@ public class UserDAOImpl extends DBConnectSQLServer implements IUserDAO{
 		System.out.println(user.getFullname());
 		
 		
+	}
+
+	@Override
+	public UserModel findByUserName(String username) {
+		String sql = "SELECT * FROM userTable WHERE username = ?";
+		UserModel oneUser = new UserModel();
+
+		try {
+		    conn = super.getConnection();
+		    ps = conn.prepareStatement(sql);
+		    ps.setString(1,username); 
+		    rs = ps.executeQuery(); 
+		    while(rs.next())
+			{
+		    oneUser.setId(rs.getInt("id"));
+		    oneUser.setUsername(rs.getString("username"));
+			oneUser.setFullname(rs.getString("fullname"));
+            oneUser.setEmail(rs.getString("email"));
+            oneUser.setPassword(rs.getString("password"));
+            oneUser.setImages(rs.getString("images"));
+			}
+		    return oneUser;
+		    }
+		   catch (Exception e) 
+		{
+		    e.printStackTrace();
+		} finally 
+		{
+
+		}
+		return null;
 	}
 }
 
