@@ -93,6 +93,23 @@ public class UserDAOImpl extends DBConnectSQLServer implements IUserDAO{
 			e.printStackTrace();
 		}
 	}
+	@Override
+	public boolean checkExistEmail(String email) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+
+	@Override
+	public boolean checkExistUsername(String username) {
+		UserModel user = null;
+        user = this.findByUserName(username);
+        if(user==null)
+      	  return false;
+        return true;
+	}
+
 	public static void main(String[]arg)
 	{
 		UserDAOImpl userDAO = new UserDAOImpl();

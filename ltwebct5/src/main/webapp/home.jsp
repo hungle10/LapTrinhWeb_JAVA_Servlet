@@ -9,7 +9,11 @@
 <body>
 <br />
 	<h2>
-		<a href="login.jsp">Dang nhap</a>
+		<a href="login">Dang nhap</a>
+	</h2>
+	<br />
+	<h2>
+		<a href="register">Dang ki</a>
 	</h2>
 </body>
 </html>
