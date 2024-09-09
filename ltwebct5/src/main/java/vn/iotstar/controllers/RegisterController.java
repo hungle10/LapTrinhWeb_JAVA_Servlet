@@ -15,7 +15,7 @@ import vn.iotstar.services.*;
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = "/register")
 public class RegisterController extends HttpServlet {
-	public static final String REGISTER = "/views/register.jsp";
+	public static final String REGISTER = "register.jsp";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -50,26 +50,30 @@ public class RegisterController extends HttpServlet {
 		String fullname = req.getParameter("fullname");
 		IUserService service = new UserServiceImpl();
 		String alertMsg = "";
-		if (service.checkExistEmail(email)) {
+	/*	if (service.checkExistEmail(email)) {
+			System.out.print("that bai email");
 			alertMsg = "Email đã tồn tại!";
 			req.setAttribute("alert", alertMsg);
 			req.getRequestDispatcher(REGISTER).forward(req, resp);
 			return;
 		}
 		if (service.checkExistUsername(username)) {
+			System.out.print("that bai username");
 			alertMsg = "Tài khoản đã tồn tại!";
 			req.setAttribute("alert", alertMsg);
 			req.getRequestDispatcher(REGISTER).forward(req, resp);
 			return;
-		}
-		boolean isSuccess = service.register(email, password, username, fullname);
+		}*/
+		boolean isSuccess = service.register(username, password, email, fullname);
 		if (isSuccess) {
 			// SendMail sm = new SendMail();
 			// sm.sendMail(email, "Shopping.iotstar.vn", "Welcome to Shopping. Please Login
 			// to use service. Thanks !");
+			System.out.print("Thanh cong ");
 			req.setAttribute("alert", alertMsg);
 			resp.sendRedirect(req.getContextPath() + "/login");
 		} else {
+			System.out.print("that bai ");
 			alertMsg = "System error!";
 			req.setAttribute("alert", alertMsg);
 			req.getRequestDispatcher(REGISTER).forward(req, resp);

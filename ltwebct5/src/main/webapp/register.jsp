@@ -7,11 +7,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="login" method="post">
+<form action="register" method="post">
 		<input type="text" name="username" id="username"placeholder="Nhap username" required> 
 		<input type="text" name="password" id="password" placeholder="Nhap mat khau" required>
-		<input type="submit" value="Dang Nhap">
-        <input type="checkbox" id="remember" name="remember" autocomplete="off">
+		<input type="text" name="email" id="email" placeholder="Nhap email" required>
+		<input type="text" name="fullname" id="fullname" placeholder="Nhap ho va ten" required>
+		<input type="submit" value="Dang Ki">
 	</form>
 </body>
 </html>

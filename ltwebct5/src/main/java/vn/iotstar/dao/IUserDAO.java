@@ -12,6 +12,8 @@ public interface IUserDAO {
 	
 	UserModel findByUserName(String username);
 	
+	UserModel findByEmail(String email);
+	
 	boolean checkExistEmail(String email);
 	
 	boolean checkExistUsername(String username);
