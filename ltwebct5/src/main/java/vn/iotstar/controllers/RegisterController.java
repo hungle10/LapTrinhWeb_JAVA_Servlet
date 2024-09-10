@@ -21,17 +21,17 @@ public class RegisterController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession(false);
 		if (session != null && session.getAttribute("username") != null) {
-			resp.sendRedirect(req.getContextPath() + "/admin");
+			resp.sendRedirect(req.getContextPath() + "/waiting");
 			return;
 		}
 		// Check cookie
 		Cookie[] cookies = req.getCookies();
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("username")) {
+				if (cookie.getName().equals("username")) {//string
 					session = req.getSession(true);
 					session.setAttribute("username", cookie.getValue());
-					resp.sendRedirect(req.getContextPath() + "/admin");
+					resp.sendRedirect(req.getContextPath() + "/waiting");
 					return;
 				}
 			}
@@ -50,7 +50,7 @@ public class RegisterController extends HttpServlet {
 		String fullname = req.getParameter("fullname");
 		IUserService service = new UserServiceImpl();
 		String alertMsg = "";
-	/*	if (service.checkExistEmail(email)) {
+	   if (service.checkExistEmail(email)) {
 			System.out.print("that bai email");
 			alertMsg = "Email đã tồn tại!";
 			req.setAttribute("alert", alertMsg);
@@ -63,7 +63,7 @@ public class RegisterController extends HttpServlet {
 			req.setAttribute("alert", alertMsg);
 			req.getRequestDispatcher(REGISTER).forward(req, resp);
 			return;
-		}*/
+		}
 		boolean isSuccess = service.register(username, password, email, fullname);
 		if (isSuccess) {
 			// SendMail sm = new SendMail();
