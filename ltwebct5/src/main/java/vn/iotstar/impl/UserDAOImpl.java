@@ -143,21 +143,6 @@ public class UserDAOImpl extends DBConnectSQLServer implements IUserDAO{
         return true;
 	}
 
-	public static void main(String[]arg)
-	{
-		UserDAOImpl userDAO = new UserDAOImpl();
-		//userDAO.insert(new UserModel("abc1","abc1@gmail.com","123","linkimage","lethaihung"));
-		
-		UserModel user = userDAO.findByEmail("email1@example.com");
-	    System.out.println(user.getId());
-		System.out.println(user.getUsername());
-		System.out.println(user.getEmail());
-		System.out.println(user.getPassword());
-		System.out.println(user.getImages());
-		System.out.println(user.getFullname());
-		
-		
-	}
 
 	@Override
 	public UserModel findByUserName(String username) {
