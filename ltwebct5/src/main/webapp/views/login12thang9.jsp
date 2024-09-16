@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="/ltwebct5/login" method="post">
+<form action="login" method="post">
 
   <div class="imgcontainer">
     <img src="img_avatar2.png" alt="Avatar" class="avatar">
@@ -28,7 +28,7 @@
 
   <div class="container" style="background-color:#f1f1f1">
     <button type="button" class="cancelbtn">Cancel</button>
-    <span class="psw">Forgot <a href="forgotPassword.jsp">password?</a></span>
+    <span class="psw">Forgot <a href="forgotPassword">password?</a></span>
   </div>
 </form>
 

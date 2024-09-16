@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns = "/manager/home")
+@WebServlet(urlPatterns = {"/manager/home"})
 public class HomeController extends HttpServlet{
 
 	@Override
