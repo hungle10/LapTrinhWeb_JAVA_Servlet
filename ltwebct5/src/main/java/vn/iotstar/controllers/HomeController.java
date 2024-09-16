@@ -1,5 +1,9 @@
 package vn.iotstar.controllers;
 
+import vn.iotstar.dao.*;
+import vn.iotstar.impl.UserDAOImpl;
+import vn.iotstar.models.UserModel;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -47,22 +51,29 @@ public class HomeController extends HttpServlet{
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		 
-			 resp.setContentType("text/html");
+			String username = req.getParameter("username");
+			System.out.println(username);
+			String email = req.getParameter("email");
+			IUserDAO u = new UserDAOImpl();
+			UserModel user = u.findByUserName(username);
+			if(user.getEmail().equals(email))
+			{
+				resp.setContentType("text/html");
 
 	    	    // Create a PrintWriter object to write the HTML content
 	    	    PrintWriter out = resp.getWriter();
-
+	    	    
 	    	    // Write the HTML code for the greeting message
-	    	    out.println("<!DOCTYPE html>");
-	    	    out.println("<html>");
-	    	    out.println("<head>");
-	    	    out.println("<title>Hello World</title>");
-	    	    out.println("</head>");
-	    	    out.println("<body>");
-	    	    out.println("<h1>OKE BẠN SẼ ĐƯỢC ĐỔI PASS</h1>");
-	    	    out.println("</body>");
-	    	    out.println("</html>");
+	    	    out.println("This is your password"+user.getPassword());
+			}
+			else
+			{
+				resp.setContentType("text/html");
+
+	    	    // Create a PrintWriter object to write the HTML content
+	    	    PrintWriter out = resp.getWriter();
+	    	    out.println("Username không khớp với mật khẩu!");
+			}
 		 
 	}
 

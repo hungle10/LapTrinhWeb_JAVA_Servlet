@@ -3,6 +3,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -187,7 +188,7 @@ public class UserDAOImpl extends DBConnectSQLServer implements IUserDAO{
 
 	@Override
 	public UserModel findByUserName(String username) {
-		String sql = "SELECT * FROM userTable WHERE username = ?";
+		/*String sql = "SELECT * FROM userTable WHERE username = ?";
 		try {
 		    conn = super.getConnection();
 		    ps = conn.prepareStatement(sql);
@@ -215,7 +216,46 @@ public class UserDAOImpl extends DBConnectSQLServer implements IUserDAO{
 		{
 
 		}
-		return null;
+		return null;*/
+		String sql = "SELECT * FROM userTable WHERE username = ?";
+	    UserModel oneUser = null;
+	    Connection conn = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+
+	    try {
+	        conn = super.getConnection();
+	        ps = conn.prepareStatement(sql);
+	        ps.setString(1, username);
+	        rs = ps.executeQuery();
+
+	        while(rs.next()) {
+	            oneUser = new UserModel();
+	            oneUser.setId(rs.getInt("id"));
+	            oneUser.setUsername(rs.getString("username"));
+	            oneUser.setFullname(rs.getString("fullname"));
+	            oneUser.setEmail(rs.getString("email"));
+	            oneUser.setPassword(rs.getString("password"));
+	            oneUser.setImages(rs.getString("images"));
+	            oneUser.setRoleid(rs.getInt("roleid"));  // Assuming roleid is an integer in the DB
+	            oneUser.setPhone(rs.getString("phone"));
+	            oneUser.setCreateDate(rs.getDate("createDate"));
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        // Close resources in reverse order of creation
+	        try {
+	            if (rs != null) rs.close();
+	            if (ps != null) ps.close();
+	            if (conn != null) conn.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    return oneUser;
+	    
 	}
+
 }
 
