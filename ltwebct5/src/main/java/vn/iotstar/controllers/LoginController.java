@@ -47,7 +47,7 @@ public class LoginController extends HttpServlet {
 		if (user != null) 
 		{
 			HttpSession session = req.getSession(true);
-			session.setAttribute("account", user);
+			session.setAttribute("account",user);
 			if (isRememberMe) 
 			{
 				saveRemeberMe(resp, username);
@@ -63,9 +63,32 @@ public class LoginController extends HttpServlet {
 		}
 
 	}
+	private void getLogOut(HttpServletRequest req, HttpServletResponse resp) throws IOException
+	{
+		HttpSession session = req.getSession();
+		session.removeAttribute("account");
+		Cookie[] cookies = req.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("username")) {
+					cookie.setMaxAge(0);
+					resp.addCookie(cookie);
+					break;
+				}
+			}
+		}
+		resp.sendRedirect("./login");
+	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		   String action = req.getParameter("action");
+	        
+	        // Kiểm tra nếu action là logout
+	        if ("logout".equals(action)) {
+	            getLogOut(req,resp);
+	            return;
+	        } 
 		HttpSession session = req.getSession(false);
 		if (session != null && session.getAttribute("account") != null) {
 			resp.sendRedirect(req.getContextPath() + "/waiting");
@@ -77,7 +100,7 @@ public class LoginController extends HttpServlet {
 			for (Cookie cookie : cookies) {
 				if (cookie.getName().equals("username")) {
 					session = req.getSession(true);
-					session.setAttribute("account", cookie.getValue());
+					session.setAttribute("username",cookie.getValue());
 					resp.sendRedirect(req.getContextPath() + "/waiting");
 					return;
 				}
