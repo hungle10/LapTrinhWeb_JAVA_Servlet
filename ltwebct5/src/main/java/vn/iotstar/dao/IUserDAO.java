@@ -10,9 +10,9 @@ public interface IUserDAO {
 
 	void insert(UserModel user);
 	
-	UserModel findByUserName(String username);
+	UserModel findByUserName(String username); //khi user dùng username đăng nhập
 	
-	UserModel findByEmail(String email);
+	UserModel findByEmail(String email); // khi user dùng email đăng nhập 
 	
 	boolean checkExistEmail(String email);
 	

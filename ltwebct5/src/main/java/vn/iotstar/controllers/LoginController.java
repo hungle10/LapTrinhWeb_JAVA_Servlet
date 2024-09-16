@@ -37,7 +37,7 @@ public class LoginController extends HttpServlet {
 		if (username.isEmpty() || password.isEmpty()) {
 			alertMsg = "Tài khoản hoặc mật khẩu không được rỗng";
 			req.setAttribute("alert", alertMsg);
-			req.getRequestDispatcher("/login.jsp").forward(req, resp);
+			req.getRequestDispatcher("/views/login12thang9.jsp").forward(req, resp);
 			return;
 		}
 
@@ -47,19 +47,19 @@ public class LoginController extends HttpServlet {
 		if (user != null) 
 		{
 			HttpSession session = req.getSession(true);
-			session.setAttribute("username", user);
+			session.setAttribute("account", user);
 			if (isRememberMe) 
 			{
 				saveRemeberMe(resp, username);
 			}
 
-			resp.sendRedirect(req.getContextPath() + "/waiting");
+			resp.sendRedirect(req.getContextPath() + "/waiting");//phần waiting(controller) kiểm tra role của user
 		} 
 		else 
 		{
 			alertMsg = "Tài khoản hoặc mật khẩu không đúng";
 			req.setAttribute("alert", alertMsg);
-			req.getRequestDispatcher("login.jsp").forward(req, resp);
+			req.getRequestDispatcher("/views/login12thang9.jsp").forward(req, resp);
 		}
 
 	}
@@ -67,7 +67,7 @@ public class LoginController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession(false);
-		if (session != null && session.getAttribute("username") != null) {
+		if (session != null && session.getAttribute("account") != null) {
 			resp.sendRedirect(req.getContextPath() + "/waiting");
 			return;
 		}
@@ -77,13 +77,13 @@ public class LoginController extends HttpServlet {
 			for (Cookie cookie : cookies) {
 				if (cookie.getName().equals("username")) {
 					session = req.getSession(true);
-					session.setAttribute("username", cookie.getValue());
+					session.setAttribute("account", cookie.getValue());
 					resp.sendRedirect(req.getContextPath() + "/waiting");
 					return;
 				}
 			}
 		}
-		req.getRequestDispatcher("login.jsp").forward(req, resp);
+		req.getRequestDispatcher("/views/login12thang9.jsp").forward(req, resp);
 	}
 
 	private void saveRemeberMe(HttpServletResponse response, String username) {
@@ -91,4 +91,5 @@ public class LoginController extends HttpServlet {
 		cookie.setMaxAge(30 * 60);
 		response.addCookie(cookie);
 	}
+	
 }

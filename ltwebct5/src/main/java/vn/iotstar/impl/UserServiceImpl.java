@@ -3,6 +3,9 @@ package vn.iotstar.impl;
 
 import vn.iotstar.models.UserModel;
 import vn.iotstar.services.IUserService;
+
+import java.sql.Date;
+
 import vn.iotstar.dao.*;
 
 public class UserServiceImpl implements IUserService {
@@ -20,15 +23,13 @@ public class UserServiceImpl implements IUserService {
 	
 	@Override
 	public boolean register(String email, String password, String username, String fullname) {
-		/*if (userDao.checkExistUsername(username)) {
-			System.out.print("that bai 1 ");
+		   if (userDao.checkExistUsername(username)) {
+			System.out.print("that bai da ton tai username nay ");
 			return false;
-			}*/
+			}
 			long millis=System.currentTimeMillis();
 			java.sql.Date date=new java.sql.Date(millis);
-			System.out.print("that bai 2");
-			userDao.insert(new UserModel(email, username, fullname,password));
-			System.out.print("that bai 3 ");
+			userDao.insert(new UserModel(username,email,password,fullname,1,date));
 			return true;
 	}
 

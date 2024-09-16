@@ -20,7 +20,7 @@ public class RegisterController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession(false);
-		if (session != null && session.getAttribute("username") != null) {
+		if (session != null && session.getAttribute("account") != null) {
 			resp.sendRedirect(req.getContextPath() + "/waiting");
 			return;
 		}
@@ -30,7 +30,7 @@ public class RegisterController extends HttpServlet {
 			for (Cookie cookie : cookies) {
 				if (cookie.getName().equals("username")) {//string
 					session = req.getSession(true);
-					session.setAttribute("username", cookie.getValue());
+					session.setAttribute("account", cookie.getValue());
 					resp.sendRedirect(req.getContextPath() + "/waiting");
 					return;
 				}
@@ -64,7 +64,7 @@ public class RegisterController extends HttpServlet {
 			req.getRequestDispatcher(REGISTER).forward(req, resp);
 			return;
 		}
-		boolean isSuccess = service.register(username, password, email, fullname);
+		boolean isSuccess = service.register(email, password, username, fullname);
 		if (isSuccess) {
 			// SendMail sm = new SendMail();
 			// sm.sendMail(email, "Shopping.iotstar.vn", "Welcome to Shopping. Please Login

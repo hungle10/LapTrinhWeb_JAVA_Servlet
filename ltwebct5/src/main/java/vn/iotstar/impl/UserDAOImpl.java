@@ -1,5 +1,6 @@
 package vn.iotstar.impl;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 import vn.iotstar.configs.*;
 import vn.iotstar.dao.*;
 import vn.iotstar.models.UserModel;
+import vn.iotstar.services.*;
 public class UserDAOImpl extends DBConnectSQLServer implements IUserDAO{
 
 	public Connection conn = null;
@@ -31,8 +33,11 @@ public class UserDAOImpl extends DBConnectSQLServer implements IUserDAO{
 						rs.getString("username"),
 						rs.getString("email"),
 						rs.getString("password"),
+						rs.getString("fullname"),
 						rs.getString("images"),
-						rs.getString("fullname")
+						Integer.parseInt(rs.getString("roleid")),
+						rs.getString("phone"),
+						rs.getDate("createDate")
 						)
 						);
 			}
@@ -56,12 +61,15 @@ public class UserDAOImpl extends DBConnectSQLServer implements IUserDAO{
 		    rs = ps.executeQuery(); 
 		    while(rs.next())
 			{
-		    oneUser.setId(rs.getInt("id"));
-		    oneUser.setUsername(rs.getString("username"));
-			oneUser.setFullname(rs.getString("fullname"));
-            oneUser.setEmail(rs.getString("email"));
-            oneUser.setPassword(rs.getString("password"));
-            oneUser.setImages(rs.getString("images"));
+		    	oneUser.setId(rs.getInt("id"));
+			    oneUser.setUsername(rs.getString("username"));
+				oneUser.setFullname(rs.getString("fullname"));
+	            oneUser.setEmail(rs.getString("email"));
+	            oneUser.setPassword(rs.getString("password"));
+	            oneUser.setImages(rs.getString("images"));
+	            oneUser.setRoleid(Integer.parseInt(rs.getString("roleid")));
+	            oneUser.setPhone(rs.getString("phone"));
+	            oneUser.setCreateDate(rs.getDate("createDate"));
 			}
 		    return oneUser;
 		    }
@@ -87,12 +95,15 @@ public class UserDAOImpl extends DBConnectSQLServer implements IUserDAO{
 		    rs = ps.executeQuery(); 
 		    while(rs.next())
 			{
-		    oneUser.setId(rs.getInt("id"));
-		    oneUser.setUsername(rs.getString("username"));
-			oneUser.setFullname(rs.getString("fullname"));
-            oneUser.setEmail(rs.getString("email"));
-            oneUser.setPassword(rs.getString("password"));
-            oneUser.setImages(rs.getString("images"));
+		    	oneUser.setId(rs.getInt("id"));
+			    oneUser.setUsername(rs.getString("username"));
+				oneUser.setFullname(rs.getString("fullname"));
+	            oneUser.setEmail(rs.getString("email"));
+	            oneUser.setPassword(rs.getString("password"));
+	            oneUser.setImages(rs.getString("images"));
+	            oneUser.setRoleid(Integer.parseInt(rs.getString("roleid")));
+	            oneUser.setPhone(rs.getString("phone"));
+	            oneUser.setCreateDate(rs.getDate("createDate"));
 			}
 		    return oneUser;
 		    }
@@ -108,7 +119,7 @@ public class UserDAOImpl extends DBConnectSQLServer implements IUserDAO{
 
 	@Override
 	public void insert(UserModel user) {
-		String sql = "INSERT INTO userTable (username,email,password,fullname) VALUES (?,?,?,?)";
+		String sql = "INSERT INTO userTable (username,email,password,images,fullname,roleid,phone,createDate) VALUES (?,?,?,?,?,?,?,?)";
 		try
 		{
 			conn=super.getConnection();
@@ -116,7 +127,11 @@ public class UserDAOImpl extends DBConnectSQLServer implements IUserDAO{
 			ps.setString(1,user.getUsername());
 			ps.setString(2,user.getEmail());
 			ps.setString(3,user.getPassword());
-			ps.setString(4,user.getFullname());
+			ps.setString(4,user.getImages());
+			ps.setString(5,user.getFullname());
+			ps.setInt(6,user.getRoleid());
+			ps.setString(7,user.getPhone());
+			ps.setDate(8,user.getCreateDate());
 			ps.executeUpdate();
 		}catch(Exception e)
 		{
@@ -125,30 +140,54 @@ public class UserDAOImpl extends DBConnectSQLServer implements IUserDAO{
 	}
 	@Override
 	public boolean checkExistEmail(String email) {
-		UserModel user = null;
-        user = this.findByEmail(email);
-        if(user==null)
-      	  return false;
-        return true;
+		String sql = "SELECT * FROM userTable WHERE email = ?";
+		boolean duplicate = false;
+		try 
+		{
+		    conn = super.getConnection();
+		    ps=conn.prepareStatement(sql);
+		    ps.setString(1,email);
+		    rs=ps.executeQuery();
+		    if(rs.next()) {
+		    	duplicate=true;
+		    }
+		    ps.close();
+		    conn.close();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return duplicate;
 	}
 
 	
 
 	@Override
 	public boolean checkExistUsername(String username) {
-		UserModel user = null;
-        user = this.findByUserName(username);
-        if(user==null)
-      	  return false;
-        return true;
+		String sql = "SELECT * FROM userTable WHERE username = ?";
+		boolean duplicate = false;
+		try 
+		{
+		    conn = super.getConnection();
+		    ps=conn.prepareStatement(sql);
+		    ps.setString(1,username);
+		    rs=ps.executeQuery();
+		    if(rs.next()) {
+		    	duplicate=true;
+		    }
+		    ps.close();
+		    conn.close();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return duplicate;
 	}
 
 
 	@Override
 	public UserModel findByUserName(String username) {
 		String sql = "SELECT * FROM userTable WHERE username = ?";
-		UserModel oneUser = new UserModel();
-
 		try {
 		    conn = super.getConnection();
 		    ps = conn.prepareStatement(sql);
@@ -156,14 +195,18 @@ public class UserDAOImpl extends DBConnectSQLServer implements IUserDAO{
 		    rs = ps.executeQuery(); 
 		    while(rs.next())
 			{
+		    UserModel oneUser = new UserModel();
 		    oneUser.setId(rs.getInt("id"));
 		    oneUser.setUsername(rs.getString("username"));
 			oneUser.setFullname(rs.getString("fullname"));
             oneUser.setEmail(rs.getString("email"));
             oneUser.setPassword(rs.getString("password"));
             oneUser.setImages(rs.getString("images"));
+            oneUser.setRoleid(Integer.parseInt(rs.getString("roleid")));
+            oneUser.setPhone(rs.getString("phone"));
+            oneUser.setCreateDate(rs.getDate("createDate"));
+            return oneUser;
 			}
-		    return oneUser;
 		    }
 		   catch (Exception e) 
 		{
