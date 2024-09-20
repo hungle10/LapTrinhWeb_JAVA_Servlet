@@ -27,22 +27,7 @@ public class HomeController extends HttpServlet{
         if (path.contains("forgotPassword")) {
         	req.getRequestDispatcher("/views/forgotPassword.jsp").forward(req, resp);
         } else if (path.contains("home")) {
-        	// Set the content   
-    	    resp.setContentType("text/html");
-
-    	    // Create a PrintWriter object to write the HTML content
-    	    PrintWriter out = resp.getWriter();
-
-    	    // Write the HTML code for the greeting message
-    	    out.println("<!DOCTYPE html>");
-    	    out.println("<html>");
-    	    out.println("<head>");
-    	    out.println("<title>Hello World</title>");
-    	    out.println("</head>");
-    	    out.println("<body>");
-    	    out.println("<h1>Xin chào user!</h1>");
-    	    out.println("</body>");
-    	    out.println("</html>");
+        	req.getRequestDispatcher("/views/User.jsp").forward(req, resp);
         } else {
             // Nếu có URL khác không khớp
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
