@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-Tao la manager
+<sitemesh:write property="body"/>
 </body>
 </html>
