@@ -139,6 +139,20 @@ public class UserDAOImpl extends DBConnectSQLServer implements IUserDAO{
 			e.printStackTrace();
 		}
 	}
+	public void update(UserModel user) {
+	    String sql = "UPDATE userTable SET phone = ?, fullname = ?, images = ? WHERE id = ?";
+	    try {
+	        conn = super.getConnection();
+	        ps = conn.prepareStatement(sql);
+	        ps.setString(1, user.getPhone());
+	        ps.setString(2, user.getFullname());
+	        ps.setString(3, user.getImages());
+	        ps.setInt(4, user.getId()); // Assuming username is the unique identifier
+	        ps.executeUpdate();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
 	@Override
 	public boolean checkExistEmail(String email) {
 		String sql = "SELECT * FROM userTable WHERE email = ?";
@@ -188,35 +202,6 @@ public class UserDAOImpl extends DBConnectSQLServer implements IUserDAO{
 
 	@Override
 	public UserModel findByUserName(String username) {
-		/*String sql = "SELECT * FROM userTable WHERE username = ?";
-		try {
-		    conn = super.getConnection();
-		    ps = conn.prepareStatement(sql);
-		    ps.setString(1,username); 
-		    rs = ps.executeQuery(); 
-		    while(rs.next())
-			{
-		    UserModel oneUser = new UserModel();
-		    oneUser.setId(rs.getInt("id"));
-		    oneUser.setUsername(rs.getString("username"));
-			oneUser.setFullname(rs.getString("fullname"));
-            oneUser.setEmail(rs.getString("email"));
-            oneUser.setPassword(rs.getString("password"));
-            oneUser.setImages(rs.getString("images"));
-            oneUser.setRoleid(Integer.parseInt(rs.getString("roleid")));
-            oneUser.setPhone(rs.getString("phone"));
-            oneUser.setCreateDate(rs.getDate("createDate"));
-            return oneUser;
-			}
-		    }
-		   catch (Exception e) 
-		{
-		    e.printStackTrace();
-		} finally 
-		{
-
-		}
-		return null;*/
 		String sql = "SELECT * FROM userTable WHERE username = ?";
 	    UserModel oneUser = null;
 	    Connection conn = null;

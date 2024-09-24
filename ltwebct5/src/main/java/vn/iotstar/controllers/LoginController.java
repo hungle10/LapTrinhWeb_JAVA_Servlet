@@ -1,6 +1,7 @@
 package vn.iotstar.controllers;
 
 import java.io.IOException;
+
 import java.io.PrintWriter;
 
 import jakarta.servlet.ServletException;
@@ -13,6 +14,7 @@ import jakarta.servlet.http.HttpSession;
 import vn.iotstar.impl.*;
 import vn.iotstar.models.UserModel;
 import vn.iotstar.services.*;
+import vn.iotstar.dao.*;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = "/login")
@@ -44,27 +46,23 @@ public class LoginController extends HttpServlet {
 		IUserService service = new UserServiceImpl();
 
 		UserModel user = service.login(username, password);
-		if (user != null) 
-		{
+		if (user != null) {
 			HttpSession session = req.getSession(true);
-			session.setAttribute("account",user);
-			if (isRememberMe) 
-			{
+			session.setAttribute("account", user);
+			if (isRememberMe) {
 				saveRemeberMe(resp, username);
 			}
 
-			resp.sendRedirect(req.getContextPath() + "/waiting");//phần waiting(controller) kiểm tra role của user
-		} 
-		else 
-		{
+			resp.sendRedirect(req.getContextPath() + "/waiting");// phần waiting(controller) kiểm tra role của user
+		} else {
 			alertMsg = "Tài khoản hoặc mật khẩu không đúng";
 			req.setAttribute("alert", alertMsg);
 			req.getRequestDispatcher("/views/login12thang9.jsp").forward(req, resp);
 		}
 
 	}
-	private void getLogOut(HttpServletRequest req, HttpServletResponse resp) throws IOException
-	{
+
+	private void getLogOut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		HttpSession session = req.getSession();
 		session.removeAttribute("account");
 		Cookie[] cookies = req.getCookies();
@@ -82,31 +80,39 @@ public class LoginController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		   String action = req.getParameter("action");
-	        
-	        // Kiểm tra nếu action là logout
-	        if ("logout".equals(action)) {
-	            getLogOut(req,resp);
-	            return;
-	        } 
-		HttpSession session = req.getSession(false);
-		if (session != null && session.getAttribute("account") != null) {
-			resp.sendRedirect(req.getContextPath() + "/waiting");
+		String action = req.getParameter("action");
+
+		// Kiểm tra nếu action là logout
+		if ("logout".equals(action)) {
+			getLogOut(req, resp);
 			return;
 		}
-		// Check cookie
-		Cookie[] cookies = req.getCookies();
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("username")) {
-					session = req.getSession(true);
-					session.setAttribute("username",cookie.getValue());
-					resp.sendRedirect(req.getContextPath() + "/waiting");
-					return;
+		String check = req.getParameter("check");
+		if (check == null) {
+			HttpSession session = req.getSession(false);
+			if (session != null && session.getAttribute("account") != null) {
+				resp.sendRedirect(req.getContextPath() + "/waiting");
+				return;
+			}
+			// Check cookie
+			Cookie[] cookies = req.getCookies();
+			if (cookies != null) {
+				for (Cookie cookie : cookies) {
+					if (cookie.getName().equals("username")) {
+						session = req.getSession(true);
+						session.setAttribute("username", cookie.getValue());
+						resp.sendRedirect(req.getContextPath() + "/waiting");
+						return;
+					}
 				}
 			}
+			req.getRequestDispatcher("/views/login12thang9.jsp").forward(req, resp);
+		} else {
+			IUserDAO dao = new UserDAOImpl();
+			UserModel user = dao.findByUserName(check);
+			req.setAttribute("user", user);
+			req.getRequestDispatcher("/views/editProfile.jsp").forward(req, resp);
 		}
-		req.getRequestDispatcher("/views/login12thang9.jsp").forward(req, resp);
 	}
 
 	private void saveRemeberMe(HttpServletResponse response, String username) {
@@ -114,5 +120,5 @@ public class LoginController extends HttpServlet {
 		cookie.setMaxAge(30 * 60);
 		response.addCookie(cookie);
 	}
-	
+
 }

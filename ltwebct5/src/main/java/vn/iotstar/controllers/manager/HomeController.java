@@ -86,6 +86,9 @@ public class HomeController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String action = req.getParameter("action");
 		System.out.print("Thanh cong 0");
+		String id = req.getParameter("id");
+		IUserDAO dao = new UserDAOImpl();
+		UserModel user= dao.findById(Integer.parseInt(id));
 		if ("SaveOrUpdate".equals(action)) {
 			System.out.print("Thanh cong 1");
 			String uploadPath = File.separator + UPLOAD_DIRECTORY; // upload vào thư mục bất kỳ
@@ -105,6 +108,8 @@ public class HomeController extends HttpServlet {
 					fileName = getFileName(part);
 					if(fileName!=null)
 					{
+					user.setImages(fileName);
+					dao.update(user);
 					part.write(uploadPath + File.separator + fileName);
 					System.out.print("Thanh cong 3");
 					}
