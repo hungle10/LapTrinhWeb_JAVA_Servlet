@@ -49,16 +49,17 @@
 						<li>
     <c:choose>
         <c:when test="${not empty sessionScope.username}">
-            <!-- Nếu đã có session, liên kết dẫn đến trang 'profile' -->
-            <a href="login?check=${sessionScope.username.username}">${sessionScope.username.username}</a>
+     
+            <a href="login?check=${sessionScope.username}">${sessionScope.username}</a>
         </c:when>
         <c:otherwise>
-            <!-- Nếu chưa có session, liên kết dẫn đến trang 'login' -->
+           
             <a href="login?check=${sessionScope.account.username}">${sessionScope.account.username}</a>
         </c:otherwise>
        
     </c:choose>
 </li>
+
 						<li><a
 							href="${pageContext.request.contextPath}/login?action=logout">Logout</a></li>
 					</ul>
