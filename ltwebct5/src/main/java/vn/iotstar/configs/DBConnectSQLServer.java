@@ -18,8 +18,10 @@ public class DBConnectSQLServer {
 	       SQLServerDriver driver = new SQLServerDriver();
 	       
 	       DriverManager.registerDriver(driver);
-	       String url = "jdbc:sqlserver://LEHUNG\\THAIHUNG;databaseName=ltwebct5;integratedSecurity=true;encrypt=true;trustServerCertificate=true;";
+	    
 	     //  String url = "jdbc:sqlserver://LEHUNG\\THAIHUNG;databaseName=ltwebct5;user=testLogin;password=123456;encrypt=true;trustServerCertificate=true;";
+	     // String url = "jdbc:sqlserver://192.168.1.2:1433;databaseName=ltwebct5;user=sa;password=Abc@123456789;encrypt=true;trustServerCertificate=true;";
+	       String url = "jdbc:sqlserver://LEHUNG\\THAIHUNG;databaseName=ltwebct5;integratedSecurity=true;encrypt=true;trustServerCertificate=true;";
 
 	       
 	       c=DriverManager.getConnection(url);
@@ -56,9 +58,9 @@ public class DBConnectSQLServer {
 			   e.printStackTrace();
 		   }
 	   }
-	   public static void main(String[]arg)
-		{
-			DBConnectSQLServer.printInfo(getConnection());
-				
-		}
+	   public static void main(String[] args)
+	    {
+		   DBConnectSQLServer.printInfo(getConnection());
+	    }
+
 }

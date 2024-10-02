@@ -21,7 +21,8 @@
 		<div class="form-group">
 			<label>Anh dai dien</label> <br />
 			<c:if test="${user.images !=null}">
-				<img src="<c:url value="/uploads/${user.images}"/>" width="80"
+			<c:url value="/image?fname=${user.images}" var="imgUrl"></c:url>
+				<img src="${imgUrl}" width="80"
 					height="70" />
 			</c:if>
 			<input type="file" class="form-control" name="file"
@@ -32,3 +33,4 @@
 	</form>
 </body>
 </html>
+

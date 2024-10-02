@@ -83,8 +83,6 @@ public class editProfileController extends HttpServlet {
 					dao.update(user);
 					part.write(uploadPath + File.separator + fileName);
 					}
-					else
-						break;
 				}
 				request.setAttribute("message", "File " + fileName + " has uploaded successfully!");
 			} catch (FileNotFoundException fne) {

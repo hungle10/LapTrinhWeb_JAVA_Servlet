@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<c:url value="/" var="URL"></c:url>
+<c:url value="/" var="URL"></c:url>  <!-- value="/" nghĩa là nếu contextpath là /ltwebct5 thì URL lúc này mang giá trị /ltwebct5/ -->
+
 <!DOCTYPE html>
 <!-- 
 Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.2.0
