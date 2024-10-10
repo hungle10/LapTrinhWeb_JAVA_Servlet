@@ -20,7 +20,7 @@ public class DBConnectSQLServer {
 	       DriverManager.registerDriver(driver);
 	    
 	     //  String url = "jdbc:sqlserver://LEHUNG\\THAIHUNG;databaseName=ltwebct5;user=testLogin;password=123456;encrypt=true;trustServerCertificate=true;";
-	     // String url = "jdbc:sqlserver://192.168.1.2:1433;databaseName=ltwebct5;user=sa;password=Abc@123456789;encrypt=true;trustServerCertificate=true;";
+	       //  String url = "jdbc:sqlserver://192.168.2.8:1433;databaseName=ltwebct5;user=sa;password=Abc@123456789;encrypt=true;trustServerCertificate=true;";
 	       String url = "jdbc:sqlserver://LEHUNG\\THAIHUNG;databaseName=ltwebct5;integratedSecurity=true;encrypt=true;trustServerCertificate=true;";
 
 	       

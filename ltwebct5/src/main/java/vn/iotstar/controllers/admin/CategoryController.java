@@ -99,6 +99,7 @@ public class CategoryController extends HttpServlet {
 				for (Part part : fileParts) {
 					fileName = getFileName(part);
 					if (fileName !=  "") {
+						images = fileName;
 						CategoryModel md = new CategoryModel(Integer.parseInt(id), categoryname, status, images);
 						req.setAttribute("cate", md);
 						cateService.update(md);
